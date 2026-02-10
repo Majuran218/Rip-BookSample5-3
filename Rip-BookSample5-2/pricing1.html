@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Perfect Plan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        body {
+            background-color: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 0 20px;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .billing-toggle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 30px 0 40px;
+        }
+        
+        .toggle-option {
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .toggle-option.active {
+            background-color: #3b82f6;
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        
+        .toggle-option.inactive {
+            background-color: #e2e8f0;
+            color: #64748b;
+        }
+        
+        .save-badge {
+            background-color: #10b981;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        .plans-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .plan-card {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            padding: 40px 35px;
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .most-popular-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, #8b5cf6, #3b82f6);
+            color: white;
+            padding: 8px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
+        }
+        
+        .plan-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .plan-name {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+        
+        .plan-for {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+        
+        .price-section {
+            margin-bottom: 35px;
+        }
+        
+        .price-option {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .price-option:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .price-amount {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #0f172a;
+        }
+        
+        .price-period {
+            color: #64748b;
+            font-size: 1rem;
+        }
+        
+        .price-details {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-top: 5px;
+        }
+        
+        .cta-button {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+        }
+        
+        .pro-button {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            color: white;
+        }
+        
+        .pro-button:hover {
+            background: linear-gradient(90deg, #2563eb, #7c3aed);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .premium-button {
+            background-color: #0f172a;
+            color: white;
+        }
+        
+        .premium-button:hover {
+            background-color: #1e293b;
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2);
+        }
+        
+        .features {
+            margin-top: 25px;
+        }
+        
+        .features-title {
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #0f172a;
+        }
+        
+        .features-list {
+            list-style-type: none;
+        }
+        
+        .features-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+        }
+        
+        .features-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .features-list li i {
+            color: #10b981;
+            margin-right: 12px;
+            font-size: 1.1rem;
+        }
+        
+        .separator {
+            width: 80%;
+            height: 1px;
+            background-color: #e2e8f0;
+            margin: 40px auto;
+        }
+        
+        @media (max-width: 900px) {
+            .plans-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .plan-card {
+                max-width: 500px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .plan-card {
+                padding: 30px 25px;
+            }
+            
+            .billing-toggle {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Choose Your Perfect Plan</h1>
+            <p class="subtitle">Select the plan that fits your needs. All plans include our core features with different levels of access and support.</p>
+            
+            <div class="billing-toggle">
+                <div class="toggle-option active">Monthly Billing</div>
+                <div class="toggle-option inactive">Yearly Billing <span class="save-badge">Save 20%</span></div>
+            </div>
+        </header>
+        
+        <div class="plans-container">
+            <!-- Pro Plan Card -->
+            <div class="plan-card">
+                <div class="most-popular-badge">Most Popular</div>
+                
+                <div class="plan-header">
+                    <h2 class="plan-name">Pro</h2>
+                    <p class="plan-for">For growing businesses</p>
+                </div>
+                
+                <div class="price-section">
+                    <div class="price-option">
+                        <div class="price-amount">$0 <span class="price-period">per month</span></div>
+                        <p class="price-details">14-day free trial, no credit card required</p>
+                    </div>
+                    
+                    <div class="price-option">
+                        <div class="price-amount">$29 <span class="price-period">per month</span></div>
+                        <p class="price-details">Billed monthly</p>
+                    </div>
+                </div>
+                
+                <button class="cta-button pro-button">Start Free Trial</button>
+                
+                <div class="features">
+                    <h3 class="features-title">Everything in Pro includes:</h3>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check-circle"></i> All core features</li>
+                        <li><i class="fas fa-check-circle"></i> Advanced analytics & reporting</li>
+                        <li><i class="fas fa-check-circle"></i> Up to 10 team members</li>
+                        <li><i class="fas fa-check-circle"></i> Priority email support</li>
+                        <li><i class="fas fa-check-circle"></i> Custom integrations</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Premium Plan Card -->
+            <div class="plan-card">
+                <div class="plan-header">
+                    <h2 class="plan-name">Premium</h2>
+                    <p class="plan-for">For large organizations</p>
+                </div>
+                
+                <div class="price-section">
+                    <div class="price-option">
+                        <div class="price-amount">$79 <span class="price-period">per month</span></div>
+                        <p class="price-details">Billed monthly</p>
+                    </div>
+                </div>
+                
+                <button class="cta-button premium-button">Get Premium Plan</button>
+                
+                <div class="features">
+                    <h3 class="features-title">Everything in Premium includes:</h3>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check-circle"></i> All Pro features</li>
+                        <li><i class="fas fa-check-circle"></i> Unlimited team members</li>
+                        <li><i class="fas fa-check-circle"></i> Advanced security & compliance</li>
+                        <li><i class="fas fa-check-circle"></i> 24/7 phone & chat support</li>
+                        <li><i class="fas fa-check-circle"></i> Custom onboarding & training</li>
+                        <li><i class="fas fa-check-circle"></i> Dedicated account manager</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="separator"></div>
+        
+        <footer style="text-align: center; color: #64748b; margin-top: 20px; padding: 20px;">
+            <p>All plans come with a 14-day free trial. No credit card required to start.</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">Need help choosing? <a href="#" style="color: #3b82f6; text-decoration: none; font-weight: 600;">Contact our sales team</a></p>
+        </footer>
+    </div>
+    
+    <script>
+        // Toggle between monthly and yearly billing
+        document.querySelectorAll('.toggle-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove active class from all options
+                document.querySelectorAll('.toggle-option').forEach(opt => {
+                    opt.classList.remove('active');
+                    opt.classList.add('inactive');
+                });
+                
+                // Add active class to clicked option
+                this.classList.remove('inactive');
+                this.classList.add('active');
+                
+                // Update prices based on selection
+                const isYearly = this.textContent.includes('Yearly');
+                updatePrices(isYearly);
+            });
+        });
+        
+        function updatePrices(isYearly) {
+            const proPriceMonthly = document.querySelectorAll('.price-amount')[1];
+            const proPriceDetails = document.querySelectorAll('.price-details')[1];
+            const premiumPrice = document.querySelectorAll('.price-amount')[2];
+            const premiumPriceDetails = document.querySelectorAll('.price-details')[2];
+            
+            if (isYearly) {
+                // Apply 20% discount for yearly billing
+                proPriceMonthly.innerHTML = '$23.20 <span class="price-period">per month</span>';
+                proPriceDetails.textContent = 'Billed annually ($278.40/year)';
+                
+                premiumPrice.innerHTML = '$63.20 <span class="price-period">per month</span>';
+                premiumPriceDetails.textContent = 'Billed annually ($758.40/year)';
+            } else {
+                // Reset to monthly prices
+                proPriceMonthly.innerHTML = '$29 <span class="price-period">per month</span>';
+                proPriceDetails.textContent = 'Billed monthly';
+                
+                premiumPrice.innerHTML = '$79 <span class="price-period">per month</span>';
+                premiumPriceDetails.textContent = 'Billed monthly';
+            }
+        }
+        
+        // Button click handlers
+        document.querySelector('.pro-button').addEventListener('click', function() {
+            alert('Starting your 14-day free trial of Pro plan! No credit card required.');
+        });
+        
+        document.querySelector('.premium-button').addEventListener('click', function() {
+            alert('Redirecting to Premium plan checkout...');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RipBook - Birthday Wishes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header styles */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1.2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ecf0f1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            color: #e74c3c;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #3498db;
+        }
+        
+        /* Hero section */
+        .hero {
+            background: linear-gradient(135deg, #3498db 0%, #8e44ad 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-radius: 0 0 10px 10px;
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        /* Main content */
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .wish-form, .wish-display {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .form-title, .display-title {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.7rem;
+            border-bottom: 2px solid #3498db;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 0.9rem 1.8rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        
+        /* Wish cards */
+        .wishes-container {
+            margin-top: 1.5rem;
+        }
+        
+        .wish-card {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 5px 5px 0;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        
+        .wish-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .wish-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .wish-to {
+            font-weight: 700;
+            color: #2c3e50;
+            font-size: 1.2rem;
+        }
+        
+        .wish-from {
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        
+        .wish-date {
+            color: #95a5a6;
+            font-size: 0.9rem;
+        }
+        
+        .wish-message {
+            color: #34495e;
+            line-height: 1.6;
+            margin-top: 0.8rem;
+        }
+        
+        .wish-category {
+            display: inline-block;
+            background-color: #e1f5fe;
+            color: #0277bd;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 0.8rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            color: #95a5a6;
+            padding: 2rem;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #bdc3c7;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            margin-top: 1rem;
+        }
+        
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #3498db;
+        }
+        
+        .copyright {
+            color: #95a5a6;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .wish-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with navigation -->
+   
+
+    <!-- Hero section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Create Beautiful Birthday Wishes</h1>
+            <p>Send heartfelt birthday wishes to your loved ones. Fill out the form below to create a personalized birthday message.</p>
+            <a href="#wish-form" class="btn">
+                <i class="fas fa-gift"></i> Create a Birthday Wishes
+            </a>
+        </div>
+    </section>
+
+    <!-- Main content area -->
+    <div class="container">
+        <div class="main-content">
+            <!-- Form to create birthday wishes -->
+            <section class="wish-form" id="wish-form">
+                <h2 class="form-title"><i class="fas fa-pen-alt"></i> Create a Birthday Wishes</h2>
+                <form id="birthdayWishForm">
+                    <div class="form-group">
+                        <label for="recipientName"><i class="fas fa-user"></i> Recipient Name</label>
+                        <input type="text" id="recipientName" placeholder="Enter the birthday person's name" required>
+                    </div>
+                    <div class="form-group">
+    <label for="countryCode">Country Name <span class="required">*</span></label>
+    <select id="countryCode" name="countryCode"  placeholder="+44  United Kingdom" required>
+        
+       
+       
+<option value="+355">Albania (+355)</option>
+<option value="+213">Algeria (+213)</option>
+<option value="+376">Andorra (+376)</option>
+ <option value="+93">Afghanistan (+93)</option>
+<option value="+244">Angola (+244)</option>
+<option value="+1-268">Antigua and Barbuda (+1-268)</option>
+<option value="+54">Argentina (+54)</option>
+<option value="+374">Armenia (+374)</option>
+<option value="+61">Australia (+61)</option>
+<option value="+43">Austria (+43)</option>
+<option value="+994">Azerbaijan (+994)</option>
+<option value="+1-242">Bahamas (+1-242)</option>
+<option value="+973">Bahrain (+973)</option>
+<option value="+880">Bangladesh (+880)</option>
+<option value="+1-246">Barbados (+1-246)</option>
+<option value="+375">Belarus (+375)</option>
+<option value="+32">Belgium (+32)</option>
+<option value="+501">Belize (+501)</option>
+<option value="+229">Benin (+229)</option>
+<option value="+975">Bhutan (+975)</option>
+<option value="+591">Bolivia (+591)</option>
+<option value="+387">Bosnia and Herzegovina (+387)</option>
+<option value="+267">Botswana (+267)</option>
+<option value="+55">Brazil (+55)</option>
+<option value="+673">Brunei (+673)</option>
+<option value="+359">Bulgaria (+359)</option>
+<option value="+226">Burkina Faso (+226)</option>
+<option value="+257">Burundi (+257)</option>
+<option value="+238">Cabo Verde (+238)</option>
+<option value="+855">Cambodia (+855)</option>
+<option value="+237">Cameroon (+237)</option>
+<option value="+1">Canada (+1)</option>
+<option value="+236">Central African Republic (+236)</option>
+<option value="+235">Chad (+235)</option>
+<option value="+56">Chile (+56)</option>
+<option value="+86">China (+86)</option>
+<option value="+57">Colombia (+57)</option>
+<option value="+269">Comoros (+269)</option>
+<option value="+243">Congo, Democratic Republic of the (+243)</option>
+<option value="+242">Congo, Republic of the (+242)</option>
+<option value="+506">Costa Rica (+506)</option>
+<option value="+225">Côte d'Ivoire (+225)</option>
+<option value="+385">Croatia (+385)</option>
+<option value="+53">Cuba (+53)</option>
+<option value="+357">Cyprus (+357)</option>
+<option value="+420">Czech Republic (+420)</option>
+<option value="+45">Denmark (+45)</option>
+<option value="+253">Djibouti (+253)</option>
+<option value="+1-767">Dominica (+1-767)</option>
+<option value="+1-809">Dominican Republic (+1-809)</option>
+<option value="+593">Ecuador (+593)</option>
+<option value="+20">Egypt (+20)</option>
+<option value="+503">El Salvador (+503)</option>
+<option value="+240">Equatorial Guinea (+240)</option>
+<option value="+291">Eritrea (+291)</option>
+<option value="+372">Estonia (+372)</option>
+<option value="+268">Eswatini (+268)</option>
+<option value="+251">Ethiopia (+251)</option>
+<option value="+679">Fiji (+679)</option>
+<option value="+358">Finland (+358)</option>
+<option value="+33">France (+33)</option>
+<option value="+241">Gabon (+241)</option>
+<option value="+220">Gambia (+220)</option>
+<option value="+995">Georgia (+995)</option>
+<option value="+49">Germany (+49)</option>
+<option value="+233">Ghana (+233)</option>
+<option value="+30">Greece (+30)</option>
+<option value="+1-473">Grenada (+1-473)</option>
+<option value="+502">Guatemala (+502)</option>
+<option value="+224">Guinea (+224)</option>
+<option value="+245">Guinea-Bissau (+245)</option>
+<option value="+592">Guyana (+592)</option>
+<option value="+509">Haiti (+509)</option>
+<option value="+504">Honduras (+504)</option>
+<option value="+36">Hungary (+36)</option>
+<option value="+354">Iceland (+354)</option>
+<option value="+91">India (+91)</option>
+<option value="+62">Indonesia (+62)</option>
+<option value="+98">Iran (+98)</option>
+<option value="+964">Iraq (+964)</option>
+<option value="+353">Ireland (+353)</option>
+<option value="+972">Israel (+972)</option>
+<option value="+39">Italy (+39)</option>
+<option value="+1-876">Jamaica (+1-876)</option>
+<option value="+81">Japan (+81)</option>
+<option value="+962">Jordan (+962)</option>
+<option value="+7">Kazakhstan (+7)</option>
+<option value="+254">Kenya (+254)</option>
+<option value="+686">Kiribati (+686)</option>
+<option value="+383">Kosovo (+383)</option>
+<option value="+965">Kuwait (+965)</option>
+<option value="+996">Kyrgyzstan (+996)</option>
+<option value="+856">Laos (+856)</option>
+<option value="+371">Latvia (+371)</option>
+<option value="+961">Lebanon (+961)</option>
+<option value="+266">Lesotho (+266)</option>
+<option value="+231">Liberia (+231)</option>
+<option value="+218">Libya (+218)</option>
+<option value="+423">Liechtenstein (+423)</option>
+<option value="+370">Lithuania (+370)</option>
+<option value="+352">Luxembourg (+352)</option>
+<option value="+261">Madagascar (+261)</option>
+<option value="+265">Malawi (+265)</option>
+<option value="+60">Malaysia (+60)</option>
+<option value="+960">Maldives (+960)</option>
+<option value="+223">Mali (+223)</option>
+<option value="+356">Malta (+356)</option>
+<option value="+692">Marshall Islands (+692)</option>
+<option value="+222">Mauritania (+222)</option>
+<option value="+230">Mauritius (+230)</option>
+<option value="+52">Mexico (+52)</option>
+<option value="+691">Micronesia (+691)</option>
+<option value="+373">Moldova (+373)</option>
+<option value="+377">Monaco (+377)</option>
+<option value="+976">Mongolia (+976)</option>
+<option value="+382">Montenegro (+382)</option>
+<option value="+212">Morocco (+212)</option>
+<option value="+258">Mozambique (+258)</option>
+<option value="+95">Myanmar (+95)</option>
+<option value="+264">Namibia (+264)</option>
+<option value="+674">Nauru (+674)</option>
+<option value="+977">Nepal (+977)</option>
+<option value="+31">Netherlands (+31)</option>
+<option value="+64">New Zealand (+64)</option>
+<option value="+505">Nicaragua (+505)</option>
+<option value="+227">Niger (+227)</option>
+<option value="+234">Nigeria (+234)</option>
+<option value="+683">Niue (+683)</option>
+<option value="+389">North Macedonia (+389)</option>
+<option value="+47">Norway (+47)</option>
+<option value="+968">Oman (+968)</option>
+<option value="+92">Pakistan (+92)</option>
+<option value="+680">Palau (+680)</option>
+<option value="+970">Palestine (+970)</option>
+<option value="+507">Panama (+507)</option>
+<option value="+675">Papua New Guinea (+675)</option>
+<option value="+595">Paraguay (+595)</option>
+<option value="+51">Peru (+51)</option>
+<option value="+63">Philippines (+63)</option>
+<option value="+48">Poland (+48)</option>
+<option value="+351">Portugal (+351)</option>
+<option value="+1-787">Puerto Rico (+1-787)</option>
+<option value="+974">Qatar (+974)</option>
+<option value="+40">Romania (+40)</option>
+<option value="+7">Russia (+7)</option>
+<option value="+250">Rwanda (+250)</option>
+<option value="+1-869">Saint Kitts and Nevis (+1-869)</option>
+<option value="+1-758">Saint Lucia (+1-758)</option>
+<option value="+1-784">Saint Vincent and the Grenadines (+1-784)</option>
+<option value="+685">Samoa (+685)</option>
+<option value="+378">San Marino (+378)</option>
+<option value="+239">Sao Tome and Principe (+239)</option>
+<option value="+966">Saudi Arabia (+966)</option>
+<option value="+221">Senegal (+221)</option>
+<option value="+381">Serbia (+381)</option>
+<option value="+248">Seychelles (+248)</option>
+<option value="+232">Sierra Leone (+232)</option>
+<option value="+65">Singapore (+65)</option>
+<option value="+1-721">Sint Maarten (+1-721)</option>
+<option value="+421">Slovakia (+421)</option>
+<option value="+386">Slovenia (+386)</option>
+<option value="+677">Solomon Islands (+677)</option>
+<option value="+252">Somalia (+252)</option>
+<option value="+27">South Africa (+27)</option>
+<option value="+211">South Sudan (+211)</option>
+<option value="+34">Spain (+34)</option>
+<option value="+94">Sri Lanka (+94)</option>
+<option value="+249">Sudan (+249)</option>
+<option value="+597">Suriname (+597)</option>
+<option value="+46">Sweden (+46)</option>
+<option value="+41">Switzerland (+41)</option>
+<option value="+963">Syria (+963)</option>
+<option value="+886">Taiwan (+886)</option>
+<option value="+992">Tajikistan (+992)</option>
+<option value="+255">Tanzania (+255)</option>
+<option value="+66">Thailand (+66)</option>
+<option value="+228">Togo (+228)</option>
+<option value="+690">Tokelau (+690)</option>
+<option value="+676">Tonga (+676)</option>
+<option value="+1-868">Trinidad and Tobago (+1-868)</option>
+<option value="+216">Tunisia (+216)</option>
+<option value="+90">Turkey (+90)</option>
+<option value="+993">Turkmenistan (+993)</option>
+<option value="+1-649">Turks and Caicos Islands (+1-649)</option>
+<option value="+688">Tuvalu (+688)</option>
+<option value="+256">Uganda (+256)</option>
+<option value="+380">Ukraine (+380)</option>
+<option value="+971">United Arab Emirates (+971)</option>
+<option value="+44">United Kingdom (+44)</option>
+<option value="+1">United States (+1)</option>
+<option value="+598">Uruguay (+598)</option>
+<option value="+998">Uzbekistan (+998)</option>
+<option value="+678">Vanuatu (+678)</option>
+<option value="+379">Vatican City (+379)</option>
+<option value="+58">Venezuela (+58)</option>
+<option value="+84">Vietnam (+84)</option>
+<option value="+1-340">U.S. Virgin Islands (+1-340)</option>
+<option value="+681">Wallis and Futuna (+681)</option>
+<option value="+967">Yemen (+967)</option>
+<option value="+260">Zambia (+260)</option>
+<option value="+263">Zimbabwe (+263)</option>
+        
+        
+    </select>
+</div>
+
+
+
+                    <div class="form-group">
+                        <label for="address"><i class="fas fa-user-edit"></i>Address</label>
+                        <input type="text" id="address" placeholder="Enter your address" required>
+                        </div>
+
+                    
+                    <div class="form-group">
+                        <label for="senderName"><i class="fas fa-user-edit"></i> Your Name</label>
+                        <input type="text" id="senderName" placeholder="Enter your name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="wishCategory"><i class="fas fa-tag"></i> Wish Category</label>
+                        <select id="wishCategory" required>
+                            <option value="" disabled selected>Select a category</option>
+                            <option value="funny">Funny & Humorous</option>
+                            <option value="heartfelt">Heartfelt & Emotional</option>
+                            <option value="inspirational">Inspirational & Motivational</option>
+                            <option value="friendly">Friendly & Casual</option>
+                            <option value="formal">Formal & Respectful</option>
+                        </select>
+                    </div>
+
+                     <div class="form-group">
+                            <label for="relationship">Your Relationship <span class="required">*</span></label>
+                            <select id="relationship" name="relationship" required>
+                                <option value="">Select Relationship</option>
+                                <option value="spouse">Spouse/Partner</option>
+                                <option value="parent">Parent</option>
+                                <option value="child">Child</option>
+                                <option value="sibling">Sibling</option>
+                                <option value="friend">Friend</option>
+                                <option value="relative">Relative</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                    
+                    <div class="form-group">
+                        <label for="wishMessage"><i class="fas fa-quote-left"></i> Your Birthday Message</label>
+                        <textarea id="wishMessage" placeholder="Write your birthday message here..." required></textarea>
+                    </div>b
+                    
+                    <button type="submit" class="btn">
+                        <i class="fas fa-paper-plane"></i> Create Birthday Wishes
+                    </button>
+                </form>
+            </section>
+
+            <!-- Display created wishes -->
+            <section class="wish-display">
+                <h2 class="display-title"><i class="fas fa-birthday-cake"></i> Created Birthday Wishes</h2>
+                
+                <div class="wishes-container" id="wishesContainer">
+                    <!-- Wishes will be dynamically added here -->
+                    <div class="empty-state" id="emptyState">
+                        <i class="fas fa-gifts"></i>
+                        <h3>No wishes created yet</h3>
+                        <p>Create your first birthday wish using the form on the left!</p>
+                    </div>
+                    
+                    <!-- Sample wish cards (will be hidden when JS runs) -->
+                    <div class="wish-card sample-wish" style="display: none;">
+                        <div class="wish-header">
+                            <div>
+                                <div class="wish-to">To: <span class="recipient-name">John</span></div>
+                                <div class="wish-from">From: <span class="sender-name">Sarah</span></div>
+                            </div>
+                            <div class="wish-date">July 12, 2023</div>
+                        </div>
+                        <p class="wish-message">Happy Birthday John! Wishing you a day filled with happiness and a year filled with joy. May all your dreams come true!</p>
+                        <span class="wish-category heartfelt">Heartfelt & Emotional</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('birthdayWishForm');
+            const wishesContainer = document.getElementById('wishesContainer');
+            const emptyState = document.getElementById('emptyState');
+            
+            // Remove sample wish on page load
+            const sampleWish = document.querySelector('.sample-wish');
+            if (sampleWish) {
+                sampleWish.remove();
+            }
+            
+            // Handle form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const recipientName = document.getElementById('recipientName').value;
+                const senderName = document.getElementById('senderName').value;
+                const wishCategory = document.getElementById('wishCategory').value;
+                const wishMessage = document.getElementById('wishMessage').value;
+                
+                // Create wish object
+                const wish = {
+                    recipientName,
+                    senderName,
+                    wishCategory,
+                    wishMessage,
+                    date: new Date().toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    })
+                };
+                
+                // Add wish to display
+                addWishToDisplay(wish);
+                
+                // Clear form
+                form.reset();
+                
+                // Scroll to the new wish
+                const newWish = wishesContainer.firstChild;
+                newWish.scrollIntoView({ behavior: 'smooth' });
+                
+                // Show success message
+                showNotification('Birthday wish created successfully!');
+            });
+            
+            // Function to add wish to display
+            function addWishToDisplay(wish) {
+                // Hide empty state if it's the first wish
+                if (emptyState.style.display !== 'none') {
+                    emptyState.style.display = 'none';
+                }
+                
+                // Create wish card
+                const wishCard = document.createElement('div');
+                wishCard.className = 'wish-card';
+                
+                // Format category display text
+                const categoryText = getCategoryText(wish.wishCategory);
+                const categoryClass = wish.wishCategory;
+                
+                wishCard.innerHTML = `
+                    <div class="wish-header">
+                        <div>
+                            <div class="wish-to">To: <span class="recipient-name">${wish.recipientName}</span></div>
+                            <div class="wish-from">From: <span class="sender-name">${wish.senderName}</span></div>
+                        </div>
+                        <div class="wish-date">${wish.date}</div>
+                    </div>
+                    <p class="wish-message">${wish.wishMessage}</p>
+                    <span class="wish-category ${categoryClass}">${categoryText}</span>
+                `;
+                
+                // Add to top of container
+                wishesContainer.insertBefore(wishCard, wishesContainer.firstChild);
+            }
+            
+            // Function to get category display text
+            function getCategoryText(category) {
+                const categories = {
+                    'funny': 'Funny & Humorous',
+                    'heartfelt': 'Heartfelt & Emotional',
+                    'inspirational': 'Inspirational & Motivational',
+                    'friendly': 'Friendly & Casual',
+                    'formal': 'Formal & Respectful'
+                };
+                
+                return categories[category] || 'Birthday Wish';
+            }
+            
+            // Function to show notification
+            function showNotification(message) {
+                // Create notification element
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                notification.textContent = message;
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background-color: #2ecc71;
+                    color: white;
+                    padding: 15px 20px;
+                    border-radius: 5px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                    z-index: 1000;
+                    font-weight: 600;
+                    animation: slideIn 0.3s ease-out;
+                `;
+                
+                // Add animation
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    @keyframes fadeOut {
+                        from { opacity: 1; }
+                        to { opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                // Add to page
+                document.body.appendChild(notification);
+                
+                // Remove after 3 seconds
+                setTimeout(() => {
+                    notification.style.animation = 'fadeOut 0.3s ease-out';
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                        document.head.removeChild(style);
+                    }, 300);
+                }, 3000);
+            }
+            
+            // Pre-populate with some sample wishes
+            const sampleWishes = [
+                {
+                    recipientName: "Emily",
+                    senderName: "Michael",
+                    wishCategory: "funny",
+                    wishMessage: "Happy Birthday Emily! Remember, you're not old, you're just a classic! Hope your day is as amazing as you are!",
+                    date: "July 10, 2023"
+                },
+                {
+                    recipientName: "David",
+                    senderName: "Your Team",
+                    wishCategory: "inspirational",
+                    wishMessage: "Happy Birthday David! May this year bring you closer to your dreams and fill your life with endless possibilities. Keep shining!",
+                    date: "July 8, 2023"
+                }
+            ];
+            
+            // Add sample wishes after a short delay
+            setTimeout(() => {
+                sampleWishes.forEach(wish => addWishToDisplay(wish));
+            }, 500);
+        });
+    </script>
+</body>
+</html>

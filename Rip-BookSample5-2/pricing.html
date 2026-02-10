@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Plans - Choose Your Plan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .billing-toggle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+
+        .billing-toggle-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .billing-toggle {
+            position: relative;
+            display: inline-block;
+            width: 80px;
+            height: 36px;
+        }
+
+        .billing-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to right, #3498db, #2c3e50);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 28px;
+            width: 28px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background: linear-gradient(to right, #2c3e50, #3498db);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(44px);
+        }
+
+        .toggle-labels {
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            padding: 0 10px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .yearly-savings {
+            background-color: #2ecc71;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .pricing-card.popular {
+            border: 2px solid #3498db;
+            transform: scale(1.05);
+        }
+
+        .pricing-card.popular:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 0;
+            right: 20px;
+            background: #3498db;
+            color: white;
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 0 0 10px 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pricing-header {
+            padding: 30px;
+            text-align: center;
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+        }
+
+        .pricing-title {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .pricing-subtitle {
+            color: #7f8c8d;
+            font-size: 1rem;
+        }
+
+        .pricing-price {
+            padding: 30px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .price-amount {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #2c3e50;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .price-period {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        .price-description {
+            color: #95a5a6;
+            font-size: 0.95rem;
+            margin-top: 10px;
+        }
+
+        .pricing-features {
+            padding: 30px;
+            flex-grow: 1;
+        }
+
+        .pricing-features ul {
+            list-style: none;
+        }
+
+        .pricing-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid #f5f5f5;
+            display: flex;
+            align-items: center;
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-icon {
+            color: #2ecc71;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        .feature-not-included {
+            color: #e74c3c;
+        }
+
+        .pricing-footer {
+            padding: 0 30px 30px;
+            text-align: center;
+        }
+
+        .select-plan-btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .free-btn {
+            background: linear-gradient(to right, #95a5a6, #7f8c8d);
+            color: white;
+        }
+
+        .free-btn:hover {
+            background: linear-gradient(to right, #7f8c8d, #95a5a6);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(127, 140, 141, 0.4);
+        }
+
+        .pro-btn {
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+        }
+
+        .pro-btn:hover {
+            background: linear-gradient(to right, #2980b9, #3498db);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .premium-btn {
+            background: linear-gradient(to right, #2c3e50, #1a252f);
+            color: white;
+        }
+
+        .premium-btn:hover {
+            background: linear-gradient(to right, #1a252f, #2c3e50);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(44, 62, 80, 0.4);
+        }
+
+        .selected-plan {
+            background-color: #2ecc71 !important;
+            color: white !important;
+        }
+
+        .selected-plan:hover {
+            background-color: #27ae60 !important;
+        }
+
+        .selected-badge {
+            display: none;
+            margin-top: 10px;
+            color: #2ecc71;
+            font-weight: 600;
+        }
+
+        .selected-badge.show {
+            display: block;
+        }
+
+        .validation-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-top: 30px;
+        }
+
+        .validation-title {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .selected-plan-details {
+            display: none;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 5px solid #3498db;
+        }
+
+        .selected-plan-details.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .plan-detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .plan-detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .detail-value {
+            color: #3498db;
+            font-weight: 600;
+        }
+
+        .total-price {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            font-weight: 700;
+            padding-top: 15px;
+            border-top: 2px solid #3498db;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .validation-message {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .validation-message.show {
+            display: block;
+        }
+
+        .form-group.error input {
+            border-color: #e74c3c;
+        }
+
+        .form-group.success input {
+            border-color: #2ecc71;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            background: linear-gradient(to right, #3498db, #2c3e50);
+            color: white;
+            border: none;
+            padding: 20px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            background: linear-gradient(to right, #2980b9, #1a252f);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-top: 30px;
+            border-left: 5px solid #2ecc71;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: #2ecc71;
+            margin-bottom: 20px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 1100px) {
+            .pricing-card.popular {
+                transform: scale(1);
+            }
+            
+            .pricing-card.popular:hover {
+                transform: translateY(-10px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .billing-toggle-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Choose Your Perfect Plan</h1>
+            <p>Select the plan that fits your needs. All plans include our core features with different levels of access and support.</p>
+            
+            <div class="billing-toggle-container">
+                <span class="billing-toggle-label">Monthly Billing</span>
+                <label class="billing-toggle">
+                    <input type="checkbox" id="billingToggle">
+                    <span class="toggle-slider"></span>
+                    <div class="toggle-labels">
+                       
+                    </div>
+                </label>
+                <span class="billing-toggle-label">Yearly Billing <span class="yearly-savings">Save 20%</span></span>
+            </div>
+        </div>
+
+        <div class="pricing-grid">
+            <!-- Free Trial Plan -->
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3 class="pricing-title">Free Trial</h3>
+                    <p class="pricing-subtitle">Perfect for getting started</p>
+                </div>
+                <div class="pricing-price">
+                    <div class="price-amount" data-monthly="$0" data-yearly="$0">$0</div>
+                    <div class="price-period" data-monthly="per month" data-yearly="per year">per month</div>
+                    <p class="price-description">14-day free trial, no credit card required</p>
+                </div>
+                <div class="pricing-features">
+                    <ul>
+                        <li><i class="fas fa-check feature-icon"></i> Access to basic features</li>
+                        <li><i class="fas fa-check feature-icon"></i> 5 projects included</li>
+                        <li><i class="fas fa-check feature-icon"></i> 1GB storage</li>
+                        <li><i class="fas fa-check feature-icon"></i> Basic support</li>
+                        <li><i class="fas fa-times feature-icon feature-not-included"></i> Advanced analytics</li>
+                        <li><i class="fas fa-times feature-icon feature-not-included"></i> Priority support</li>
+                        <li><i class="fas fa-times feature-icon feature-not-included"></i> Custom integrations</li>
+                    </ul>
+                </div>
+                <div class="pricing-footer">
+                    <button class="select-plan-btn free-btn" data-plan="free" data-price-monthly="0" data-price-yearly="0">Start Free Trial</button>
+                    <div class="selected-badge">Currently Selected</div>
+                </div>
+            </div>
+
+            <!-- Pro Plan -->
+            <div class="pricing-card popular">
+                <div class="popular-badge">Most Popular</div>
+                <div class="pricing-header">
+                    <h3 class="pricing-title">Pro</h3>
+                    <p class="pricing-subtitle">For growing businesses</p>
+                </div>
+                <div class="pricing-price">
+                    <div class="price-amount" data-monthly="$29" data-yearly="$129">$29</div>
+                    <div class="price-period" data-monthly="per month" data-yearly="per year">per month</div>
+                    <p class="price-description">Billed <span data-monthly="monthly" data-yearly="annually">monthly</span></p>
+                </div>
+                <div class="pricing-features">
+                    <ul>
+                        <li><i class="fas fa-check feature-icon"></i> Everything in Free</li>
+                        <li><i class="fas fa-check feature-icon"></i> 50 projects included</li>
+                        <li><i class="fas fa-check feature-icon"></i> 100GB storage</li>
+                        <li><i class="fas fa-check feature-icon"></i> Priority support</li>
+                        <li><i class="fas fa-check feature-icon"></i> Advanced analytics</li>
+                        <li><i class="fas fa-check feature-icon"></i> Custom integrations</li>
+                        <li><i class="fas fa-times feature-icon feature-not-included"></i> Dedicated account manager</li>
+                    </ul>
+                </div>
+                <div class="pricing-footer">
+                    <button class="select-plan-btn pro-btn" data-plan="pro" data-price-monthly="29" data-price-yearly="278">Choose Pro Plan</button>
+                    <div class="selected-badge">Currently Selected</div>
+                </div>
+            </div>
+
+            <!-- Premium Plan -->
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3 class="pricing-title">Premium</h3>
+                    <p class="pricing-subtitle">For large organizations</p>
+                </div>
+                <div class="pricing-price">
+                    <div class="price-amount" data-monthly="$79" data-yearly="$149">$49</div>
+                    <div class="price-period" data-monthly="per month" data-yearly="per year">per month</div>
+                    <p class="price-description">Billed <span data-monthly="monthly" data-yearly="annually">monthly</span></p>
+                </div>
+                <div class="pricing-features">
+                    <ul>
+                        <li><i class="fas fa-check feature-icon"></i> Everything in Pro</li>
+                        <li><i class="fas fa-check feature-icon"></i> Unlimited projects</li>
+                        <li><i class="fas fa-check feature-icon"></i> 1TB storage</li>
+                        <li><i class="fas fa-check feature-icon"></i> 24/7 phone support</li>
+                        <li><i class="fas fa-check feature-icon"></i> Dedicated account manager</li>
+                        <li><i class="fas fa-check feature-icon"></i> Custom SLA</li>
+                        <li><i class="fas fa-check feature-icon"></i> Onboarding & training</li>
+                    </ul>
+                </div>
+                <div class="pricing-footer">
+                    <button class="select-plan-btn premium-btn" data-plan="premium" data-price-monthly="79" data-price-yearly="758">Choose Premium Plan</button>
+                    <div class="selected-badge">Currently Selected</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Validation and Checkout Section -->
+        <div class="validation-section">
+            <h2 class="validation-title">Complete Your Purchase</h2>
+            
+            <div class="selected-plan-details" id="selectedPlanDetails">
+                <div class="plan-detail-item">
+                    <span class="detail-label">Selected Plan:</span>
+                    <span class="detail-value" id="detailPlan">Free Trial</span>
+                </div>
+                <div class="plan-detail-item">
+                    <span class="detail-label">Billing Period:</span>
+                    <span class="detail-value" id="detailBilling">Monthly</span>
+                </div>
+                <div class="plan-detail-item">
+                    <span class="detail-label">Price:</span>
+                    <span class="detail-value" id="detailPrice">$0</span>
+                </div>
+                <div class="plan-detail-item total-price">
+                    <span class="detail-label">Total Amount:</span>
+                    <span class="detail-value" id="detailTotal">$0</span>
+                </div>
+            </div>
+
+            <form id="checkoutForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" placeholder="Enter your full name">
+                    <div class="validation-message" id="nameError">Please enter your full name</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter your email address">
+                    <div class="validation-message" id="emailError">Please enter a valid email address</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="paymentMethod">Payment Method</label>
+                    <select id="paymentMethod" style="width:100%; padding:15px; border-radius:10px; border:2px solid #ddd; font-size:1rem;">
+                        <option value="">Select Payment Method</option>
+                        <option value="credit">Credit/Debit Card</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="bank">Bank Transfer</option>
+                    </select>
+                    <div class="validation-message" id="paymentError">Please select a payment method</div>
+                </div>
+
+                <div class="form-group" id="cardDetails" style="display:none;">
+                    <label for="cardNumber">Card Number</label>
+                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456">
+                    <div class="validation-message" id="cardError">Please enter a valid card number</div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="termsAgreement">
+                        I agree to the <a href="#" style="color:#3498db;">Terms of Service</a> and <a href="#" style="color:#3498db;">Privacy Policy</a>
+                    </label>
+                    <div class="validation-message" id="termsError">You must agree to the terms and conditions</div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn" disabled>Complete Purchase</button>
+            </form>
+
+            <div class="success-message" id="successMessage">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>Purchase Successful!</h3>
+                <p>Thank you for your purchase. You will receive a confirmation email shortly.</p>
+                <p>Your <strong id="confirmedPlan">Free Trial</strong> plan is now active.</p>
+                <button class="submit-btn" id="returnBtn" style="margin-top:20px; background:#2ecc71;">Return to Dashboard</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>All plans come with a 30-day money-back guarantee. No hidden fees.</p>
+            <p>Need help choosing? <a href="#" style="color:#3498db;">Contact our sales team</a></p>
+            <p>&copy; 2023 Your Company. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const billingToggle = document.getElementById('billingToggle');
+            const priceAmounts = document.querySelectorAll('.price-amount');
+            const pricePeriods = document.querySelectorAll('.price-period');
+            const priceDescriptions = document.querySelectorAll('.price-description');
+            const selectPlanBtns = document.querySelectorAll('.select-plan-btn');
+            const selectedBadges = document.querySelectorAll('.selected-badge');
+            const selectedPlanDetails = document.getElementById('selectedPlanDetails');
+            const checkoutForm = document.getElementById('checkoutForm');
+            const successMessage = document.getElementById('successMessage');
+            const returnBtn = document.getElementById('returnBtn');
+            const paymentMethod = document.getElementById('paymentMethod');
+            const cardDetails = document.getElementById('cardDetails');
+            
+            // State variables
+            let selectedPlan = 'free';
+            let isYearlyBilling = false;
+            let selectedPrice = 0;
+            
+            // Initialize with Free plan selected
+            selectPlan('free', 0);
+            
+            // Billing toggle event listener
+            billingToggle.addEventListener('change', function() {
+                isYearlyBilling = this.checked;
+                updatePrices();
+                updateSelectedPlanDetails();
+            });
+            
+            // Plan selection event listeners
+            selectPlanBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const plan = this.getAttribute('data-plan');
+                    const priceMonthly = parseFloat(this.getAttribute('data-price-monthly'));
+                    const priceYearly = parseFloat(this.getAttribute('data-price-yearly'));
+                    const price = isYearlyBilling ? priceYearly : priceMonthly;
+                    
+                    selectPlan(plan, price);
+                });
+            });
+            
+            // Payment method change
+            paymentMethod.addEventListener('change', function() {
+                if (this.value === 'credit') {
+                    cardDetails.style.display = 'block';
+                } else {
+                    cardDetails.style.display = 'none';
+                }
+            });
+            
+            // Form validation and submission
+            checkoutForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (validateForm()) {
+                    // Show success message
+                    successMessage.classList.add('show');
+                    checkoutForm.style.display = 'none';
+                    selectedPlanDetails.style.display = 'none';
+                    
+                    // Update confirmed plan in success message
+                    document.getElementById('confirmedPlan').textContent = 
+                        selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1) + 
+                        (selectedPlan === 'free' ? ' Trial' : '');
+                }
+            });
+            
+            // Return button
+            returnBtn.addEventListener('click', function() {
+                // Reset form
+                checkoutForm.reset();
+                checkoutForm.style.display = 'block';
+                selectedPlanDetails.style.display = 'block';
+                successMessage.classList.remove('show');
+                cardDetails.style.display = 'none';
+                
+                // Re-enable submit button
+                document.getElementById('submitBtn').disabled = true;
+            });
+            
+            // Real-time form validation
+            const formInputs = ['fullName', 'email', 'paymentMethod', 'cardNumber'];
+            formInputs.forEach(inputId => {
+                const input = document.getElementById(inputId);
+                if (input) {
+                    input.addEventListener('input', function() {
+                        validateField(this.id);
+                        updateSubmitButton();
+                    });
+                    
+                    // For select elements, use change event
+                    if (input.tagName === 'SELECT') {
+                        input.addEventListener('change', function() {
+                            validateField(this.id);
+                            updateSubmitButton();
+                        });
+                    }
+                }
+            });
+            
+            // Terms agreement checkbox
+            document.getElementById('termsAgreement').addEventListener('change', function() {
+                validateField('termsAgreement');
+                updateSubmitButton();
+            });
+            
+            // Functions
+            function selectPlan(plan, price) {
+                // Update selected plan state
+                selectedPlan = plan;
+                selectedPrice = price;
+                
+                // Update UI for plan selection
+                selectPlanBtns.forEach(btn => {
+                    btn.classList.remove('selected-plan');
+                });
+                
+                selectedBadges.forEach(badge => {
+                    badge.classList.remove('show');
+                });
+                
+                // Highlight selected plan
+                const selectedBtn = document.querySelector(`[data-plan="${plan}"]`);
+                selectedBtn.classList.add('selected-plan');
+                
+                const selectedBadge = selectedBtn.nextElementSibling;
+                selectedBadge.classList.add('show');
+                
+                // Show selected plan details
+                selectedPlanDetails.classList.add('show');
+                updateSelectedPlanDetails();
+                
+                // Enable submit button if form is valid
+                updateSubmitButton();
+            }
+            
+            function updatePrices() {
+                // Update price amounts
+                priceAmounts.forEach(amount => {
+                    const monthlyPrice = amount.getAttribute('data-monthly');
+                    const yearlyPrice = amount.getAttribute('data-yearly');
+                    amount.textContent = isYearlyBilling ? yearlyPrice : monthlyPrice;
+                });
+                
+                // Update price periods
+                pricePeriods.forEach(period => {
+                    const monthlyText = period.getAttribute('data-monthly');
+                    const yearlyText = period.getAttribute('data-yearly');
+                    period.textContent = isYearlyBilling ? yearlyText : monthlyText;
+                });
+                
+                // Update price descriptions
+                priceDescriptions.forEach(desc => {
+                    const span = desc.querySelector('span');
+                    if (span) {
+                        const monthlyText = span.getAttribute('data-monthly');
+                        const yearlyText = span.getAttribute('data-yearly');
+                        span.textContent = isYearlyBilling ? yearlyText : monthlyText;
+                    }
+                });
+            }
+            
+            function updateSelectedPlanDetails() {
+                // Get plan name with proper formatting
+                let planName = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
+                if (selectedPlan === 'free') planName = 'Free Trial';
+                
+                // Calculate price based on billing cycle
+                const selectedBtn = document.querySelector(`[data-plan="${selectedPlan}"]`);
+                const priceMonthly = parseFloat(selectedBtn.getAttribute('data-price-monthly'));
+                const priceYearly = parseFloat(selectedBtn.getAttribute('data-price-yearly'));
+                const price = isYearlyBilling ? priceYearly : priceMonthly;
+                
+                // Update details display
+                document.getElementById('detailPlan').textContent = planName;
+                document.getElementById('detailBilling').textContent = isYearlyBilling ? 'Yearly' : 'Monthly';
+                document.getElementById('detailPrice').textContent = isYearlyBilling ? 
+                    `$${priceYearly}/year` : `$${priceMonthly}/month`;
+                document.getElementById('detailTotal').textContent = isYearlyBilling ? 
+                    `$${priceYearly}` : `$${priceMonthly}`;
+            }
+            
+            function validateForm() {
+                let isValid = true;
+                
+                // Validate each field
+                isValid = validateField('fullName') && isValid;
+                isValid = validateField('email') && isValid;
+                isValid = validateField('paymentMethod') && isValid;
+                isValid = validateField('termsAgreement') && isValid;
+                
+                // Validate card number if payment method is credit
+                if (paymentMethod.value === 'credit') {
+                    isValid = validateField('cardNumber') && isValid;
+                }
+                
+                return isValid;
+            }
+            
+            function validateField(fieldId) {
+                const field = document.getElementById(fieldId);
+                const errorElement = document.getElementById(fieldId + 'Error');
+                let isValid = true;
+                
+                // Clear previous error state
+                if (field && field.parentElement) {
+                    field.parentElement.classList.remove('error', 'success');
+                }
+                if (errorElement) {
+                    errorElement.classList.remove('show');
+                }
+                
+                // Validation logic for each field
+                switch(fieldId) {
+                    case 'fullName':
+                        if (!field.value.trim()) {
+                            showError(field, errorElement, 'Please enter your full name');
+                            isValid = false;
+                        } else if (field.value.trim().length < 2) {
+                            showError(field, errorElement, 'Name must be at least 2 characters');
+                            isValid = false;
+                        } else {
+                            showSuccess(field);
+                        }
+                        break;
+                        
+                    case 'email':
+                        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        if (!field.value.trim()) {
+                            showError(field, errorElement, 'Please enter your email address');
+                            isValid = false;
+                        } else if (!emailRegex.test(field.value.trim())) {
+                            showError(field, errorElement, 'Please enter a valid email address');
+                            isValid = false;
+                        } else {
+                            showSuccess(field);
+                        }
+                        break;
+                        
+                    case 'paymentMethod':
+                        if (!field.value) {
+                            showError(field, errorElement, 'Please select a payment method');
+                            isValid = false;
+                        } else {
+                            showSuccess(field);
+                        }
+                        break;
+                        
+                    case 'cardNumber':
+                        if (paymentMethod.value === 'credit') {
+                            const cardRegex = /^[0-9]{16}$/;
+                            const cleanCardNumber = field.value.replace(/\s/g, '');
+                            
+                            if (!cleanCardNumber) {
+                                showError(field, errorElement, 'Please enter your card number');
+                                isValid = false;
+                            } else if (!cardRegex.test(cleanCardNumber)) {
+                                showError(field, errorElement, 'Please enter a valid 16-digit card number');
+                                isValid = false;
+                            } else {
+                                showSuccess(field);
+                            }
+                        }
+                        break;
+                        
+                    case 'termsAgreement':
+                        if (!field.checked) {
+                            showError(field, errorElement, 'You must agree to the terms and conditions');
+                            isValid = false;
+                        } else {
+                            showSuccess(field);
+                        }
+                        break;
+                }
+                
+                return isValid;
+            }
+            
+            function showError(field, errorElement, message) {
+                if (field && field.parentElement) {
+                    field.parentElement.classList.add('error');
+                }
+                if (errorElement) {
+                    errorElement.textContent = message;
+                    errorElement.classList.add('show');
+                }
+            }
+            
+            function showSuccess(field) {
+                if (field && field.parentElement) {
+                    field.parentElement.classList.add('success');
+                    field.parentElement.classList.remove('error');
+                }
+            }
+            
+            function updateSubmitButton() {
+                // Enable submit button only if a plan is selected and form is valid
+                const submitBtn = document.getElementById('submitBtn');
+                
+                // Check if form is valid
+                const isFormValid = validateForm();
+                
+                // Enable/disable button
+                submitBtn.disabled = !isFormValid;
+            }
+            
+            // Initialize form validation
+            updateSubmitButton();
+        });
+    </script>
+</body>
+</html>
